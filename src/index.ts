@@ -3,12 +3,14 @@ import { version as platformVersion } from "zapier-platform-core";
 
 import Authentication from "./authentication";
 import Middleware from "./middleware";
+import Submission from "./triggers/submission";
+import Form from "./resources/form";
 
 const App = {
   version,
   platformVersion,
 
-  Authentication: Authentication,
+  authentication: Authentication,
 
   beforeRequest: [
     Middleware.AddApiKey
@@ -18,7 +20,10 @@ const App = {
     Middleware.HandleHttpError
   ],
 
-  triggers: {},
+  triggers: {
+    [Form.key]: Form,
+    [Submission.key]: Submission
+  },
 
   searches: {},
 
