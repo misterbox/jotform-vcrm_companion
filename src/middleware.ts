@@ -6,7 +6,7 @@ const handleHttpError = (response: HttpResponse, z: ZObject) => {
         z.console.log(`Content: ${response.content}`);
         z.console.log(`Request: ${JSON.stringify(response.request)}`);
 
-        throw new Error(`Got an unexpected response from VCRM API: ${response.content}`);
+        throw new Error(`Got an unexpected response from the JotForm API: ${response.content}`);
     }
 
     return response;

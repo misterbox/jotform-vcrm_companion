@@ -1,7 +1,7 @@
 
 import Constants from "../constants";
 import { ZObject, Bundle, HttpResponse } from "zapier-platform-core";
-import { JotFormResponse } from "../models/jotform-response";
+import { JotFormResponse } from "../models/responses/jotform-response";
 import { Form } from "../models/form";
 import Utilities from "../utilities";
 
