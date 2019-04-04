@@ -1,4 +1,13 @@
-import { Form } from "./models/form";
+import { FormSubmission } from "./models/responses/form-submission";
+import Submission from "./models/submission";
+
+const processFormSubmissions = (submissions: FormSubmission[]): Submission[] => {
+    let result: Submission[] = [];
+
+    console.log('Processing submissions: ', submissions);
+
+    return result;
+};
 
 const sortForms = (formA: any, formB: any): number => {
     const nameA = formA.name.toUpperCase();
@@ -15,7 +24,8 @@ const sortForms = (formA: any, formB: any): number => {
 };
 
 const Utilities = {
-    SortForms: sortForms
+    processFormSubmissions: processFormSubmissions,
+    sortForms: sortForms
 };
 
 export default Utilities;

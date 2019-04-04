@@ -27,7 +27,7 @@ const queryForms = async (z: ZObject, bundle: Bundle) => {
         });
     }
 
-    return forms.sort(Utilities.SortForms);
+    return forms.sort(Utilities.sortForms);
 };
 
 const Form = {

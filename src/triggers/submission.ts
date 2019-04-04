@@ -1,7 +1,10 @@
 import { ZObject, Bundle, HttpResponse } from "zapier-platform-core";
 
 import Constants from "../constants";
+import Utilities from "../utilities";
 import { JotFormResponse } from "../models/responses/jotform-response";
+import { FormSubmission } from "../models/responses/form-submission";
+import { Submission } from "../models/submission";
 
 const triggerFormSubmission = async (z: ZObject, bundle: Bundle) => {
     const response: HttpResponse = await z.request(`${Constants.API_BASE}/form/${bundle.inputData.form_id}/submissions`, {
@@ -11,12 +14,13 @@ const triggerFormSubmission = async (z: ZObject, bundle: Bundle) => {
             body: true
         }
     });
-    let submissions: any[] = [];
+    let submissions: Submission[] = [];
 
     if (response.json) {
         let jotFormResponse: JotFormResponse = response.json as JotFormResponse;
 
-        console.log('response: ', jotFormResponse.content);
+        submissions = Utilities.processFormSubmissions(jotFormResponse.content as FormSubmission[]);
+        console.log('submissions: ', submissions);
     }
 
     return submissions;
