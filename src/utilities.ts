@@ -4,7 +4,12 @@ import Submission from "./models/submission";
 const processFormSubmissions = (submissions: FormSubmission[]): Submission[] => {
     let result: Submission[] = [];
 
-    console.log('Processing submissions: ', submissions);
+    // console.log('Processing submissions: ', submissions);
+    // console.log('Properties: ', Object.keys(submissions[0].answers));
+    for (let answer in Object.keys(submissions[0].answers)) {
+        console.log('Property: ', answer);
+        console.log('answer: ', submissions[0].answers[answer]);
+    }
 
     return result;
 };
