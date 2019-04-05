@@ -1,18 +1,31 @@
 import { FormSubmission } from "./models/responses/form-submission";
-import Submission from "./models/submission";
+import { AnswerResponse } from "./models/responses/answer-response";
 
-const processFormSubmissions = (submissions: FormSubmission[]): Submission[] => {
-    let result: Submission[] = [];
+const processFormSubmissions = (submissions: FormSubmission[]): any[] => {
+    let result: any[] = [];
 
-    // console.log('Processing submissions: ', submissions);
-    // console.log('Properties: ', Object.keys(submissions[0].answers));
-    for (let answer in Object.keys(submissions[0].answers)) {
-        console.log('Property: ', answer);
-        console.log('answer: ', submissions[0].answers[answer]);
+    for (const submission of submissions) {
+        const answers: AnswerResponse[] = getAnswerResponses(submission);
+        result.push({
+            id: submission.id
+        });
     }
 
     return result;
 };
+
+const getAnswerResponses = (submission: FormSubmission): AnswerResponse[] => {
+    let result: AnswerResponse[] = [];
+
+    for (const answer in submission.answers) {
+        if (submission.answers.hasOwnProperty(answer)) {
+            const element = submission.answers[answer];
+            console.log('element: ', element);
+        }
+    }
+
+    return result;
+}
 
 const sortForms = (formA: any, formB: any): number => {
     const nameA = formA.name.toUpperCase();
@@ -29,6 +42,7 @@ const sortForms = (formA: any, formB: any): number => {
 };
 
 const Utilities = {
+    getAnswerResponses: getAnswerResponses,
     processFormSubmissions: processFormSubmissions,
     sortForms: sortForms
 };
