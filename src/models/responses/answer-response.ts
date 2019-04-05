@@ -3,6 +3,6 @@ export interface AnswerResponse {
     order: number;
     text: string;
     type: string;
-    answer: any;
+    answer?: any;
     prettyFormat?: any;
 }

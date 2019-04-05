@@ -2,6 +2,8 @@ import * as should from 'should';
 
 import Utilities from '../utilities';
 import { FormSubmission } from '../models/responses/form-submission';
+import { AnswerResponse } from '../models/responses/answer-response';
+import { Answer } from '../models/answer';
 
 describe('Utilities', () => {
     describe('processFormSubmissions', () => {
@@ -24,7 +26,7 @@ describe('Utilities', () => {
         });
     });
 
-    describe('getAnswerResponses', () => {
+    describe('processAnswerResponses', () => {
         it('should return expected form submission answers', () => {
             const expectedName1 = "txMusic";
             const expectedOrder1 = 1;
@@ -57,14 +59,131 @@ describe('Utilities', () => {
                 }
             };
 
-            let result = Utilities.getAnswerResponses(submission);
+            let result = Utilities.processAnswerResponses(submission);
 
-            should(result[0].name).eql(expectedName1);
-            should(result[0].text).eql(expectedText1);
-            should(result[1].name).eql(expectedName2);
-            should(result[1].order).eql(expectedOrder2);
-            should(result[1].type).eql(expectedType2);
-            should(result[1].answer).eql(expectedAnswer2);
+            should(result[0].name).eql(expectedText2);
+            should(result[0].text).eql(expectedAnswer2);
+        });
+
+        it('should filter out expected answer responses', () => {
+            const expectedName = 'Phone Number';
+            const expectedText = '(123) 4567890';
+            const goodAnswerResponse: AnswerResponse = {
+                name: 'phoneNumber12',
+                order: 27,
+                text: expectedName,
+                type: 'control_phone',
+                answer: {
+                    area: '123',
+                    phone: '4567890'
+                },
+                prettyFormat: expectedText
+            };
+            const badAnswerResponse: AnswerResponse = {
+                name: 'clickto166',
+                order: 40,
+                text: 'Passenger #2',
+                type: 'control_head'
+            };
+            const submission: FormSubmission = {
+                "id": 4298733848221547651,
+                "form_id": 90896763718172,
+                "answers": {
+                    1: goodAnswerResponse,
+                    7: badAnswerResponse
+                }
+            };
+
+            const result: Answer[] = Utilities.processAnswerResponses(submission);
+
+            should(result.length).eql(1);
+        });
+    });
+
+    describe('processAnswerResponse', () => {
+        it('should return expected email address given control_email type', () => {
+            const expectedName = 'E-mail';
+            const expectedText = 'test@ump.ump';
+            const answerResponse: AnswerResponse = {
+                name: 'email11',
+                order: 26,
+                text: expectedName,
+                type: 'control_email',
+                answer: expectedText
+            };
+
+            const result: Answer = Utilities.processAnswerResponse(answerResponse);
+
+            should(result.name).eql(expectedName);
+            should(result.text).eql(expectedText);
+        });
+
+        it('should return expected phone number given control_phone type', () => {
+            const expectedName = 'Phone Number';
+            const expectedText = '(123) 4567890';
+            const answerResponse: AnswerResponse = {
+                name: 'phoneNumber12',
+                order: 27,
+                text: expectedName,
+                type: 'control_phone',
+                answer: {
+                    area: '123',
+                    phone: '4567890'
+                },
+                prettyFormat: expectedText
+            };
+
+            const result: Answer = Utilities.processAnswerResponse(answerResponse);
+
+            should(result.name).eql(expectedName);
+            should(result.text).eql(expectedText);
+        });
+
+        it('should return expected birthdate given control_birthdate type', () => {
+            const expectedName = 'Passenger 1 Birth Date';
+            const expectedText = 'January 1 1967';
+            const answerResponse: AnswerResponse = {
+                name: 'passenger113',
+                order: 25,
+                text: expectedName,
+                type: 'control_birthdate',
+                answer: {
+                    month: 'January',
+                    day: '1',
+                    year: '1967'
+                },
+                prettyFormat: expectedText
+            };
+
+            const result: Answer = Utilities.processAnswerResponse(answerResponse);
+
+            should(result.name).eql(expectedName);
+            should(result.text).eql(expectedText);
+        });
+
+        it('should return expected departure date given control_datetime type', () => {
+            const expectedName = 'Departure Date/Time';
+            const expectedText = '04-01-2019 1:00 AM';
+            const answerResponse: AnswerResponse = {
+                name: 'departureDatetime',
+                order: 7,
+                text: expectedName,
+                type: 'control_datetime',
+                answer: {
+                    month: '04',
+                    day: '01',
+                    year: '2019',
+                    hour: '1',
+                    min: '00',
+                    ampm: 'AM'
+                },
+                prettyFormat: expectedText
+            };
+
+            const result: Answer = Utilities.processAnswerResponse(answerResponse);
+
+            should(result.name).eql(expectedName);
+            should(result.text).eql(expectedText);
         });
     });
 });
