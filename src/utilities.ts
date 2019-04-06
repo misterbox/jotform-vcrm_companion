@@ -7,13 +7,44 @@ const processFormSubmissions = (submissions: FormSubmission[]): any[] => {
     let result: any[] = [];
 
     for (const submission of submissions) {
-        const answers: Answer[] = processAnswerResponses(submission);
+        processFormSubmission(submission);
         result.push({
             id: submission.id
         });
     }
 
     return result;
+};
+
+const processFormSubmission = (submission: FormSubmission) => {
+    /*
+        End result: {
+            passenger_data: [
+                {
+                    first_name: firstName,
+                    last_name: lastName
+                },
+                {
+                    first_name: firstName,
+                    middle_name: middleName,
+                    last_name: lastName
+                }
+            ],
+            email11: 'test@ump.ump',
+            phoneNumber12: '(123) 4567890'
+        }
+
+        * process answer responses in to normalized array of Answers
+        * sort Answers based on Order
+        * filter Answers with empty answer
+        * find and group passenger data
+        * add passenger array to result
+        * add all non-passenger Answers as properties of result
+    */
+
+    const allAnswers: Answer[] = processAnswerResponses(submission)
+    console.log('answers: ', allAnswers);
+    const passengerAnswers = groupPassengerAnswers(allAnswers);
 };
 
 const processAnswerResponses = (submission: FormSubmission): Answer[] => {
@@ -30,14 +61,16 @@ const processAnswerResponses = (submission: FormSubmission): Answer[] => {
         }
     }
 
-    return result;
+    return result.sort((a: Answer, b: Answer) => a.order - b.order)
+        .filter((answer: Answer) => answer.answer && answer.answer.trim().length);
 };
 
 const shouldProcessAnswer = (answerResponse: AnswerResponse): boolean => {
     return answerResponse.type === AnswerControl.BIRTHDATE ||
+        answerResponse.type === AnswerControl.DATETIME ||
         answerResponse.type === AnswerControl.DROPDOWN || 
         answerResponse.type === AnswerControl.EMAIL ||
-        answerResponse.type === AnswerControl.DATETIME ||
+        answerResponse.type === AnswerControl.HEAD ||
         answerResponse.type === AnswerControl.PHONE ||
         answerResponse.type === AnswerControl.RADIO || 
         answerResponse.type === AnswerControl.TEXTAREA ||
@@ -45,25 +78,31 @@ const shouldProcessAnswer = (answerResponse: AnswerResponse): boolean => {
 };
 
 const processAnswerResponse = (answerResponse: AnswerResponse): Answer => {
-    let result: Answer;
+    let result: Answer = {
+        name: answerResponse.name,
+        text: answerResponse.text,
+        order: answerResponse.order,
+        is_head: false
+    };
 
     switch (answerResponse.type as AnswerControl) {
+        case AnswerControl.HEAD:
+            result.is_head = true;
+            break;
         case AnswerControl.DATETIME:
         case AnswerControl.BIRTHDATE:
         case AnswerControl.PHONE:
-            result = {
-                name: answerResponse.text,
-                text: answerResponse.prettyFormat
-            };
+            result.answer = answerResponse.prettyFormat;
             break;
         default:
-            result = {
-                name: answerResponse.text,
-                text: answerResponse.answer
-            };
+            result.answer = answerResponse.answer;
     }
 
     return result;
+};
+
+const groupPassengerAnswers = (answers: Answer[]) => {
+    
 };
 
 const sortForms = (formA: any, formB: any): number => {

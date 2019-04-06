@@ -1,7 +1,7 @@
 export interface FormSubmission {
     id?: number;
     form_id?: number;
-    created_at?: number;
+    created_at?: Date;
     answers?: any;
 }
 

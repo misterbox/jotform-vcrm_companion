@@ -28,11 +28,6 @@ describe('Utilities', () => {
 
     describe('processAnswerResponses', () => {
         it('should return expected form submission answers', () => {
-            const expectedName1 = "txMusic";
-            const expectedOrder1 = 1;
-            const expectedText1 = "TX Music Takeover MexiKOE Getaway Booking Form";
-            const expectedType1 = "control_head";
-
             const expectedName2 = "email11";
             const expectedOrder2 = 26;
             const expectedText2 = "E-mail";
@@ -43,12 +38,6 @@ describe('Utilities', () => {
                 "id": 4298733848221547651,
                 "form_id": 90896763718172,
                 "answers": {
-                    "1": {
-                        "name": expectedName1,
-                        "order": expectedOrder1,
-                        "text": expectedText1,
-                        "type": expectedType1
-                    },
                     "7": {
                         "name": expectedName2,
                         "order": expectedOrder2,
@@ -61,29 +50,29 @@ describe('Utilities', () => {
 
             let result = Utilities.processAnswerResponses(submission);
 
-            should(result[0].name).eql(expectedText2);
-            should(result[0].text).eql(expectedAnswer2);
+            should(result[0].text).eql(expectedText2);
+            should(result[0].answer).eql(expectedAnswer2);
         });
 
         it('should filter out expected answer responses', () => {
-            const expectedName = 'Phone Number';
-            const expectedText = '(123) 4567890';
+            const expectedText = 'Phone Number';
+            const expectedAnswer = '(123) 4567890';
             const goodAnswerResponse: AnswerResponse = {
                 name: 'phoneNumber12',
                 order: 27,
-                text: expectedName,
+                text: expectedText,
                 type: 'control_phone',
                 answer: {
                     area: '123',
                     phone: '4567890'
                 },
-                prettyFormat: expectedText
+                prettyFormat: expectedAnswer
             };
             const badAnswerResponse: AnswerResponse = {
                 name: 'clickto166',
                 order: 40,
                 text: 'Passenger #2',
-                type: 'control_head'
+                type: 'control_button'
             };
             const submission: FormSubmission = {
                 "id": 4298733848221547651,
@@ -102,72 +91,72 @@ describe('Utilities', () => {
 
     describe('processAnswerResponse', () => {
         it('should return expected email address given control_email type', () => {
-            const expectedName = 'E-mail';
-            const expectedText = 'test@ump.ump';
+            const expectedText = 'E-mail';
+            const expectedAnswer = 'test@ump.ump';
             const answerResponse: AnswerResponse = {
                 name: 'email11',
                 order: 26,
-                text: expectedName,
+                text: expectedText,
                 type: 'control_email',
-                answer: expectedText
+                answer: expectedAnswer
             };
 
             const result: Answer = Utilities.processAnswerResponse(answerResponse);
 
-            should(result.name).eql(expectedName);
             should(result.text).eql(expectedText);
+            should(result.answer).eql(expectedAnswer);
         });
 
         it('should return expected phone number given control_phone type', () => {
-            const expectedName = 'Phone Number';
-            const expectedText = '(123) 4567890';
+            const expectedText = 'Phone Number';
+            const expectedAnswer = '(123) 4567890';
             const answerResponse: AnswerResponse = {
                 name: 'phoneNumber12',
                 order: 27,
-                text: expectedName,
+                text: expectedText,
                 type: 'control_phone',
                 answer: {
                     area: '123',
                     phone: '4567890'
                 },
-                prettyFormat: expectedText
+                prettyFormat: expectedAnswer
             };
 
             const result: Answer = Utilities.processAnswerResponse(answerResponse);
 
-            should(result.name).eql(expectedName);
             should(result.text).eql(expectedText);
+            should(result.answer).eql(expectedAnswer);
         });
 
         it('should return expected birthdate given control_birthdate type', () => {
-            const expectedName = 'Passenger 1 Birth Date';
-            const expectedText = 'January 1 1967';
+            const expectedText = 'Passenger 1 Birth Date';
+            const expectedAnswer = 'January 1 1967';
             const answerResponse: AnswerResponse = {
                 name: 'passenger113',
                 order: 25,
-                text: expectedName,
+                text: expectedText,
                 type: 'control_birthdate',
                 answer: {
                     month: 'January',
                     day: '1',
                     year: '1967'
                 },
-                prettyFormat: expectedText
+                prettyFormat: expectedAnswer
             };
 
             const result: Answer = Utilities.processAnswerResponse(answerResponse);
 
-            should(result.name).eql(expectedName);
             should(result.text).eql(expectedText);
+            should(result.answer).eql(expectedAnswer);
         });
 
         it('should return expected departure date given control_datetime type', () => {
-            const expectedName = 'Departure Date/Time';
-            const expectedText = '04-01-2019 1:00 AM';
+            const expectedText = 'Departure Date/Time';
+            const expectedAnswer = '04-01-2019 1:00 AM';
             const answerResponse: AnswerResponse = {
                 name: 'departureDatetime',
                 order: 7,
-                text: expectedName,
+                text: expectedText,
                 type: 'control_datetime',
                 answer: {
                     month: '04',
@@ -177,13 +166,13 @@ describe('Utilities', () => {
                     min: '00',
                     ampm: 'AM'
                 },
-                prettyFormat: expectedText
+                prettyFormat: expectedAnswer
             };
 
             const result: Answer = Utilities.processAnswerResponse(answerResponse);
 
-            should(result.name).eql(expectedName);
             should(result.text).eql(expectedText);
+            should(result.answer).eql(expectedAnswer);
         });
     });
 });
