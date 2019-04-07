@@ -134,14 +134,29 @@ const groupPassengerData = (answers: Answer[]): any[] => {
 const buildFinalSubmissionResult = (allAnswers: Answer[], passengerData: any[]): any => {
     let result: any = {};
     result.passenger_data = passengerData;
+    const sortedAnswers = allAnswers.sort(sortAnswers);
 
-    for (const answer of allAnswers) {
+    for (const answer of sortedAnswers) {
         if (!passengerRegExp.test(answer.text)) {
             result[answer.text] = answer.answer;
         }
     }
 
     return result;
+};
+
+const sortAnswers = (answerA: Answer, answerB: Answer): number => {
+    const textA = answerA.text.toUpperCase();
+    const textB = answerB.text.toUpperCase();
+
+    if (textA < textB) {
+        return -1;
+    }
+    if (textA > textB) {
+        return 1;
+    }
+
+    return 0;
 };
 
 const sortForms = (formA: any, formB: any): number => {
