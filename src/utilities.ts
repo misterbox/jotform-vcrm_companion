@@ -63,7 +63,7 @@ const processAnswerResponses = (submission: FormSubmission): Answer[] => {
     }
 
     return result.sort((a: Answer, b: Answer) => a.order - b.order)
-        .filter((answer: Answer) => answer.is_head || (answer.answer && answer.answer.trim().length));
+        .filter((answer: Answer) => answer.answer && answer.answer.trim().length);
 };
 
 const shouldProcessAnswer = (answerResponse: AnswerResponse): boolean => {
@@ -71,7 +71,6 @@ const shouldProcessAnswer = (answerResponse: AnswerResponse): boolean => {
         answerResponse.type === AnswerControl.DATETIME ||
         answerResponse.type === AnswerControl.DROPDOWN || 
         answerResponse.type === AnswerControl.EMAIL ||
-        answerResponse.type === AnswerControl.HEAD ||
         answerResponse.type === AnswerControl.PHONE ||
         answerResponse.type === AnswerControl.RADIO || 
         answerResponse.type === AnswerControl.TEXTAREA ||
@@ -83,13 +82,9 @@ const processAnswerResponse = (answerResponse: AnswerResponse): Answer => {
     let result: Answer = {
         text: answerResponse.text.replace(replaceRegex, '_'),
         order: answerResponse.order,
-        is_head: false
     };
 
     switch (answerResponse.type as AnswerControl) {
-        case AnswerControl.HEAD:
-            result.is_head = true;
-            break;
         case AnswerControl.DATETIME:
         case AnswerControl.BIRTHDATE:
         case AnswerControl.PHONE:

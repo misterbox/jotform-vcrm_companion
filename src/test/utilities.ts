@@ -250,19 +250,6 @@ describe('Utilities', () => {
             should(result.text).eql(expectedText);
             should(result.answer).eql(expectedAnswer);
         });
-
-        it('should return expected is_head true when processing control_head', () => {
-            const answerResponse: AnswerResponse = {
-                'name': 'clickTo166',
-                'order': 40,
-                'text': 'Passenger #2',
-                'type': 'control_head'
-            };
-
-            const result: Answer = Utilities.processAnswerResponse(answerResponse);
-
-            should(result.is_head).true();
-        });
     });
 
     describe('groupPassengerData', () => {
@@ -271,8 +258,7 @@ describe('Utilities', () => {
                 {
                     order: 1,
                     text: 'email address',
-                    answer: 'test@ump.ump',
-                    is_head: false,
+                    answer: 'test@ump.ump'
                 }
             ];
 
@@ -293,39 +279,29 @@ describe('Utilities', () => {
             const expectedState = 'Washington';
             const answers: Answer[] = [
                 {
-                    order: 1,
-                    text: 'Passenger #1',
-                    is_head: true,
-                },
-                {
                     order: 2,
                     text: 'Passenger 1 First name',
-                    answer: expectedFirstName,
-                    is_head: false,
+                    answer: expectedFirstName
                 },
                 {
                     order: 3,
                     text: 'Passenger 1 Last name',
-                    answer: expectedLastName,
-                    is_head: false,
+                    answer: expectedLastName
                 },
                 {
                     order: 4,
                     text: 'Passenger 1 Street address',
-                    answer: expectedStreetAddress,
-                    is_head: false,
+                    answer: expectedStreetAddress
                 },
                 {
                     order: 5,
                     text: 'Passenger 1 City',
-                    answer: expectedCity,
-                    is_head: false,
+                    answer: expectedCity
                 },
                 {
                     order: 6,
                     text: 'Passenger 1 State',
-                    answer: expectedState,
-                    is_head: false,
+                    answer: expectedState
                 }
             ];
 
