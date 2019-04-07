@@ -257,7 +257,7 @@ describe('Utilities', () => {
             const answers: Answer[] = [
                 {
                     order: 1,
-                    text: 'email address',
+                    text: 'email_address',
                     answer: 'test@ump.ump'
                 }
             ];
@@ -273,34 +273,39 @@ describe('Utilities', () => {
 
         it('should return a single passenger with expected data', () => {
             const expectedFirstName = 'Rick';
+            const expectedFirstNameText = 'Passenger_1_First_name';
             const expectedLastName = 'Sanchez';
+            const expectedLastNameText = 'Passenger_1_Last_name';
             const expectedStreetAddress = '123 Street';
+            const expectedStreetAddressText = 'Passenger_1_Street_address';
             const expectedCity = 'Seattle';
+            const expectedCityText = 'Passenger_1_City';
             const expectedState = 'Washington';
+            const expectedStateText = 'Passenger_1_State';
             const answers: Answer[] = [
                 {
                     order: 2,
-                    text: 'Passenger 1 First name',
+                    text: expectedFirstNameText,
                     answer: expectedFirstName
                 },
                 {
                     order: 3,
-                    text: 'Passenger 1 Last name',
+                    text: expectedLastNameText,
                     answer: expectedLastName
                 },
                 {
                     order: 4,
-                    text: 'Passenger 1 Street address',
+                    text: expectedStreetAddressText,
                     answer: expectedStreetAddress
                 },
                 {
                     order: 5,
-                    text: 'Passenger 1 City',
+                    text: expectedCityText,
                     answer: expectedCity
                 },
                 {
                     order: 6,
-                    text: 'Passenger 1 State',
+                    text: expectedStateText,
                     answer: expectedState
                 }
             ];
@@ -308,547 +313,104 @@ describe('Utilities', () => {
             const result = Utilities.groupPassengerData(answers);
             const passenger = result[0];
 
-            should(passenger.Passenger_1_First_Name).eql(expectedFirstName);
-            should(passenger.Passenger_1_Last_Name).eql(expectedLastName);
-            should(passenger.Passenger_1_Street_address).eql(expectedStreetAddress);
-            should(passenger.Passenger_1_City).eql(expectedCity);
-            should(passenger.Passenger_1_State).eql(expectedState);
+            should(passenger[expectedFirstNameText]).eql(expectedFirstName);
+            should(passenger[expectedLastNameText]).eql(expectedLastName);
+            should(passenger[expectedStreetAddressText]).eql(expectedStreetAddress);
+            should(passenger[expectedCityText]).eql(expectedCity);
+            should(passenger[expectedStateText]).eql(expectedState);
+        });
+
+        it('should return multiple passengers with expected data', () => {
+            const firstExpectedFirstName = 'Rick';
+            const firstExpectedFirstNameText = 'Passenger_1_First_name';
+            const firstExpectedLastName = 'Sanchez';
+            const firstExpectedLastNameText = 'Passenger_1_Last_name';
+            const firstExpectedStreetAddress = '123 Street';
+            const firstExpectedStreetAddressText = 'Passenger_1_Street_address';
+            const firstExpectedCity = 'Seattle';
+            const firstExpectedCityText = 'Passenger_1_City';
+            const firstExpectedState = 'Washington';
+            const firstExpectedStateText = 'Passenger_1_State';
+
+            const secondExpectedFirstName = 'Summer';
+            const secondExpectedFirstNameText = 'Passenger_2_First_name';
+            const secondExpectedLastName = 'Smith';
+            const secondExpectedLastNameText = 'Passenger_2_Last_name';
+            const secondExpectedStreetAddress = '456 Street';
+            const secondExpectedStreetAddressText = 'Passenger_2_Street_address';
+            const secondExpectedCity = 'Seattle';
+            const secondExpectedCityText = 'Passenger_2_City';
+            const secondExpectedState = 'Washington';
+            const secondExpectedStateText = 'Passenger_2_State';
+
+            const answers: Answer[] = [
+                {
+                    order: 2,
+                    text: firstExpectedFirstNameText,
+                    answer: firstExpectedFirstName
+                },
+                {
+                    order: 3,
+                    text: firstExpectedLastNameText,
+                    answer: firstExpectedLastName
+                },
+                {
+                    order: 4,
+                    text: firstExpectedStreetAddressText,
+                    answer: firstExpectedStreetAddress
+                },
+                {
+                    order: 5,
+                    text: firstExpectedCityText,
+                    answer: firstExpectedCity
+                },
+                {
+                    order: 6,
+                    text: firstExpectedStateText,
+                    answer: firstExpectedState
+                },
+                {
+                    order: 7,
+                    text: secondExpectedFirstNameText,
+                    answer: secondExpectedFirstName
+                },
+                {
+                    order: 8,
+                    text: secondExpectedLastNameText,
+                    answer: secondExpectedLastName
+                },
+                {
+                    order: 9,
+                    text: secondExpectedStreetAddressText,
+                    answer: secondExpectedStreetAddress
+                },
+                {
+                    order: 10,
+                    text: secondExpectedCityText,
+                    answer: secondExpectedCity
+                },
+                {
+                    order: 11,
+                    text: secondExpectedStateText,
+                    answer: secondExpectedState
+                }
+            ];
+
+            const result = Utilities.groupPassengerData(answers);
+            const passenger1 = result[0];
+            const passenger2 = result[1];
+
+            should(passenger1[firstExpectedFirstNameText]).eql(firstExpectedFirstName);
+            should(passenger1[firstExpectedLastNameText]).eql(firstExpectedLastName);
+            should(passenger1[firstExpectedStreetAddressText]).eql(firstExpectedStreetAddress);
+            should(passenger1[firstExpectedCityText]).eql(firstExpectedCity);
+            should(passenger1[firstExpectedStateText]).eql(firstExpectedState);
+
+            should(passenger2[secondExpectedFirstNameText]).eql(secondExpectedFirstName);
+            should(passenger2[secondExpectedLastNameText]).eql(secondExpectedLastName);
+            should(passenger2[secondExpectedStreetAddressText]).eql(secondExpectedStreetAddress);
+            should(passenger2[secondExpectedCityText]).eql(secondExpectedCity);
+            should(passenger2[secondExpectedStateText]).eql(secondExpectedState);
         });
     });
 });
-
-const submissionData = [
-    {
-        'id': '4298733848221547651',
-        'form_id': '90896763718172',
-        'ip': '64.85.193.228',
-        'created_at': '2019-03-31 16:29:44',
-        'status': 'ACTIVE',
-        'new': '1',
-        'flag': '0',
-        'notes': '',
-        'updated_at': null,
-        'answers': {
-            '1': {
-                'name': 'txMusic',
-                'order': '1',
-                'text': 'TX Music Takeover MexiKOE Getaway Booking Form',
-                'type': 'control_head'
-            },
-            '7': {
-                'name': 'clickTo7',
-                'order': '19',
-                'text': 'Passsenger Information',
-                'type': 'control_head'
-            },
-            '11': {
-                'name': 'email11',
-                'order': '26',
-                'text': 'E-mail',
-                'type': 'control_email',
-                'answer': 'test@ump.ump'
-            },
-            '12': {
-                'name': 'phoneNumber12',
-                'order': '27',
-                'sublabels': '{\'country\':\'Country Code\',\'area\':\'Area Code\',\'phone\':\'Phone Number\',\'full\':\'Phone Number\',\'masked\':\'\'}',
-                'text': 'Phone Number',
-                'type': 'control_phone',
-                'answer': {
-                    'area': '214',
-                    'phone': '5434999'
-                },
-                'prettyFormat': '(214) 5434999'
-            },
-            '13': {
-                'name': 'passenger113',
-                'order': '25',
-                'sublabels': '{\'month\':\'Month\',\'day\':\'Day\',\'year\':\'Year\'}',
-                'text': 'Passenger 1 Birth Date',
-                'type': 'control_birthdate',
-                'answer': {
-                    'month': 'January',
-                    'day': '1',
-                    'year': '1967'
-                },
-                'prettyFormat': 'January 1 1967'
-            },
-            '14': {
-                'name': 'passenger114',
-                'order': '33',
-                'text': 'Passenger 1 Passport Number',
-                'type': 'control_textbox',
-                'answer': '112233445566'
-            },
-            '17': {
-                'name': 'passenger117',
-                'order': '36',
-                'text': 'Passenger 1 Frequent Flyer Number',
-                'type': 'control_textbox',
-                'answer': '987654321f'
-            },
-            '19': {
-                'name': 'clickTo19',
-                'order': '20',
-                'text': 'Passenger #1',
-                'type': 'control_head'
-            },
-            '23': {
-                'name': 'passenger223',
-                'order': '45',
-                'sublabels': '{\'month\':\'Month\',\'day\':\'Day\',\'year\':\'Year\'}',
-                'text': 'Passenger 2 Birth Date',
-                'type': 'control_birthdate',
-                'answer': {
-                    'month': 'January',
-                    'day': '1',
-                    'year': '1934'
-                },
-                'prettyFormat': 'January 1 1934'
-            },
-            '24': {
-                'name': 'passenger224',
-                'order': '46',
-                'text': 'Passenger 2 Passport Number',
-                'type': 'control_textbox',
-                'answer': '9988776655'
-            },
-            '26': {
-                'name': 'passenger226',
-                'order': '49',
-                'text': 'Passenger 2 Frequent Flyer Number',
-                'type': 'control_textbox',
-                'answer': '55775566t'
-            },
-            '54': {
-                'name': 'additionalInformation54',
-                'order': '66',
-                'text': 'Additional Information',
-                'type': 'control_textarea',
-                'answer': 'some additional information'
-            },
-            '55': {
-                'name': 'submitForm55',
-                'order': '67',
-                'text': 'Submit Form',
-                'type': 'control_button'
-            },
-            '56': {
-                'name': 'wouldYou56',
-                'order': '4',
-                'text': 'Would you like us to quote you on travel insurance?',
-                'type': 'control_dropdown',
-                'answer': 'Yes'
-            },
-            '57': {
-                'name': 'airlineClass',
-                'order': '15',
-                'text': 'Airline Class of Service',
-                'type': 'control_dropdown',
-                'answer': 'Coach'
-            },
-            '71': {
-                'name': 'departureDatetime',
-                'order': '7',
-                'sublabels': '{\'day\':\'Day\',\'month\':\'Month\',\'year\':\'Year\',\'last\':\'Last Name\',\'hour\':\'Hour\',\'minutes\':\'Minutes\',\'litemode\':\'Date\'}',
-                'text': 'Departure Date/Time',
-                'type': 'control_datetime',
-                'answer': {
-                    'month': '04',
-                    'day': '01',
-                    'year': '2019',
-                    'hour': '1',
-                    'min': '00',
-                    'ampm': 'AM'
-                },
-                'prettyFormat': '04-01-2019 1:00 AM'
-            },
-            '72': {
-                'name': 'returnDatetime',
-                'order': '11',
-                'sublabels': '{\'day\':\'Day\',\'month\':\'Month\',\'year\':\'Year\',\'last\':\'Last Name\',\'hour\':\'Hour\',\'minutes\':\'Minutes\',\'litemode\':\'Date\'}',
-                'text': 'Return Date/Time',
-                'type': 'control_datetime',
-                'answer': {
-                    'month': '04',
-                    'day': '05',
-                    'year': '2019',
-                    'hour': '1',
-                    'min': '00',
-                    'ampm': 'AM'
-                },
-                'prettyFormat': '04-05-2019 1:00 AM'
-            },
-            '80': {
-                'name': 'passenger180',
-                'order': '34',
-                'sublabels': '{\'day\':\'Day\',\'month\':\'Month\',\'year\':\'Year\',\'last\':\'Last Name\',\'hour\':\'Hour\',\'minutes\':\'Minutes\',\'litemode\':\'Date\'}',
-                'text': 'Passenger 1 Passport Expiration Date',
-                'type': 'control_datetime',
-                'answer': {
-                    'month': '04',
-                    'day': '08',
-                    'year': '2019'
-                },
-                'prettyFormat': '04-08-2019'
-            },
-            '81': {
-                'name': 'passenger281',
-                'order': '47',
-                'sublabels': '{\'day\':\'Day\',\'month\':\'Month\',\'year\':\'Year\',\'last\':\'Last Name\',\'hour\':\'Hour\',\'minutes\':\'Minutes\',\'litemode\':\'Date\'}',
-                'text': 'Passenger 2 Passport Expiration Date',
-                'type': 'control_datetime',
-                'answer': {
-                    'month': '04',
-                    'day': '08',
-                    'year': '2019'
-                },
-                'prettyFormat': '04-08-2019'
-            },
-            '96': {
-                'name': 'passenger196',
-                'order': '37',
-                'text': 'Passenger 1 TSA Pre-Check Number',
-                'type': 'control_textbox',
-                'answer': 't123456789'
-            },
-            '97': {
-                'name': 'passenger197',
-                'order': '38',
-                'text': 'Passenger 1 Global Entry Number',
-                'type': 'control_textbox',
-                'answer': '987654321g'
-            },
-            '98': {
-                'name': 'passenger298',
-                'order': '50',
-                'text': 'Passenger 2 TSA Pre-Check Number',
-                'type': 'control_textbox',
-                'answer': 't88551118'
-            },
-            '99': {
-                'name': 'passenger299',
-                'order': '51',
-                'text': 'Passenger 2 Global Entry Number',
-                'type': 'control_textbox',
-                'answer': 'g5588899'
-            },
-            '111': {
-                'name': 'numberOf',
-                'order': '2',
-                'text': 'Number of Passengers',
-                'type': 'control_dropdown',
-                'answer': '2'
-            },
-            '112': {
-                'name': 'passenger1112',
-                'order': '24',
-                'text': 'Passenger 1 Gender',
-                'type': 'control_radio',
-                'answer': 'Male'
-            },
-            '113': {
-                'name': 'passenger2113',
-                'order': '44',
-                'text': 'Passenger 2 Gender',
-                'type': 'control_radio',
-                'answer': 'Male'
-            },
-            '114': {
-                'name': 'passenger2114',
-                'order': '48',
-                'text': 'Passenger 2 Are you a U.S. citizen',
-                'type': 'control_radio',
-                'answer': 'Yes'
-            },
-            '115': {
-                'name': 'passenger1115',
-                'order': '35',
-                'text': 'Passenger 1 Are you a U.S. citizen',
-                'type': 'control_radio',
-                'answer': 'Yes'
-            },
-            '116': {
-                'name': 'passenger1116',
-                'order': '39',
-                'text': 'Passenger 1 Flight Seating Preference',
-                'type': 'control_dropdown',
-                'answer': 'Window'
-            },
-            '117': {
-                'name': 'passenger2117',
-                'order': '52',
-                'text': 'Passenger 2 Flight Seating Preference',
-                'type': 'control_dropdown',
-                'answer': 'Window'
-            },
-            '118': {
-                'name': 'clickTo118',
-                'order': '53',
-                'text': 'Passenger #3',
-                'type': 'control_head'
-            },
-            '120': {
-                'name': 'passenger3120',
-                'order': '57',
-                'text': 'Passenger 3 Gender',
-                'type': 'control_radio',
-                'answer': ''
-            },
-            '121': {
-                'name': 'passenger3121',
-                'order': '58',
-                'sublabels': '{\'month\':\'Month\',\'day\':\'Day\',\'year\':\'Year\'}',
-                'text': 'Passenger 3 Birth Date',
-                'type': 'control_birthdate',
-                'answer': {
-                    'month': '',
-                    'day': '',
-                    'year': ''
-                },
-                'prettyFormat': '  '
-            },
-            '122': {
-                'name': 'passenger3122',
-                'order': '59',
-                'text': 'Passenger 3 Passport Number',
-                'type': 'control_textbox',
-                'answer': ''
-            },
-            '123': {
-                'name': 'passenger3123',
-                'order': '60',
-                'sublabels': '{\'day\':\'Day\',\'month\':\'Month\',\'year\':\'Year\',\'last\':\'Last Name\',\'hour\':\'Hour\',\'minutes\':\'Minutes\',\'litemode\':\'Date\'}',
-                'text': 'Passenger 3 Passport Expiration Date',
-                'type': 'control_datetime',
-                'answer': {
-                    'month': '',
-                    'day': '',
-                    'year': ''
-                },
-                'prettyFormat': ''
-            },
-            '124': {
-                'name': 'passenger3124',
-                'order': '61',
-                'text': 'Passenger 3 Are you a U.S. citizen',
-                'type': 'control_radio',
-                'answer': ''
-            },
-            '125': {
-                'name': 'passenger3125',
-                'order': '62',
-                'text': 'Passenger 3 Frequent Flyer Number',
-                'type': 'control_textbox',
-                'answer': ''
-            },
-            '127': {
-                'name': 'passenger3127',
-                'order': '63',
-                'text': 'Passenger 3 TSA Pre-Check Number',
-                'type': 'control_textbox',
-                'answer': ''
-            },
-            '128': {
-                'name': 'passenger3128',
-                'order': '64',
-                'text': 'Passenger 3 Global Entry Number',
-                'type': 'control_textbox',
-                'answer': ''
-            },
-            '165': {
-                'name': 'passenger3165',
-                'order': '65',
-                'text': 'Passenger 3 Flight Seating Preference',
-                'type': 'control_dropdown',
-                'answer': ''
-            },
-            '166': {
-                'name': 'clickTo166',
-                'order': '40',
-                'text': 'Passenger #2',
-                'type': 'control_head'
-            },
-            '168': {
-                'name': 'wouldYou',
-                'order': '3',
-                'text': 'Would you like to book your trip with air?',
-                'type': 'control_radio',
-                'answer': 'Yes'
-            },
-            '169': {
-                'name': 'departureFlight',
-                'order': '10',
-                'text': 'Departure Flight Number',
-                'type': 'control_textbox',
-                'answer': 'AA1122'
-            },
-            '170': {
-                'name': 'returnFlight',
-                'order': '13',
-                'text': 'Return Flight Number',
-                'type': 'control_textbox',
-                'answer': 'AA3344'
-            },
-            '171': {
-                'name': 'departureAirline171',
-                'order': '9',
-                'text': 'Departure Airline',
-                'type': 'control_textbox',
-                'answer': 'American Airlines'
-            },
-            '172': {
-                'name': 'returnAirline',
-                'order': '12',
-                'text': 'Return Airline',
-                'type': 'control_textbox',
-                'answer': 'American Airlines'
-            },
-            '173': {
-                'name': 'heading',
-                'order': '6',
-                'text': 'Flight Information',
-                'type': 'control_head'
-            },
-            '174': {
-                'name': 'heading174',
-                'order': '16',
-                'text': 'Hotel Information',
-                'type': 'control_head'
-            },
-            '175': {
-                'name': 'whichRoom',
-                'order': '17',
-                'text': 'Which room category would you like?',
-                'type': 'control_dropdown',
-                'answer': 'Luxury Jr Suite'
-            },
-            '177': {
-                'name': 'beddingPreference',
-                'order': '18',
-                'text': 'Bedding Preference',
-                'type': 'control_dropdown',
-                'answer': 'King'
-            },
-            '184': {
-                'name': 'typeOf',
-                'order': '5',
-                'text': 'Type of Transfers',
-                'type': 'control_dropdown',
-                'answer': 'Non-Stop Shared -$58 per person'
-            },
-            '261': {
-                'name': 'departureCity',
-                'order': '8',
-                'text': 'Departure City',
-                'type': 'control_textbox',
-                'answer': 'COLUMBIA'
-            },
-            '262': {
-                'name': 'returnCity',
-                'order': '14',
-                'text': 'Return City',
-                'type': 'control_textbox',
-                'answer': 'COLUMBIA'
-            },
-            '263': {
-                'name': 'passenger1',
-                'order': '21',
-                'text': 'Passenger 1 First Name',
-                'type': 'control_textbox',
-                'answer': 'Skye'
-            },
-            '264': {
-                'name': 'passenger1264',
-                'order': '22',
-                'text': 'Passenger 1 Middle Name',
-                'type': 'control_textbox',
-                'answer': 'Barton'
-            },
-            '265': {
-                'name': 'passenger1265',
-                'order': '23',
-                'text': 'Passenger 1 Last Name',
-                'type': 'control_textbox',
-                'answer': 'Griffin'
-            },
-            '266': {
-                'name': 'streetAddress',
-                'order': '28',
-                'text': 'Street Address',
-                'type': 'control_textbox',
-                'answer': '2009 Ammonette Street'
-            },
-            '267': {
-                'name': 'streetAddress267',
-                'order': '29',
-                'text': 'Street Address 2',
-                'type': 'control_textbox',
-                'answer': ''
-            },
-            '268': {
-                'name': 'city',
-                'order': '30',
-                'text': 'City',
-                'type': 'control_textbox',
-                'answer': 'COLUMBIA'
-            },
-            '269': {
-                'name': 'state',
-                'order': '31',
-                'text': 'State',
-                'type': 'control_dropdown',
-                'answer': 'MO'
-            },
-            '270': {
-                'name': 'zipCode',
-                'order': '32',
-                'text': 'Zip Code',
-                'type': 'control_textbox',
-                'answer': '65201'
-            },
-            '271': {
-                'name': 'passenger2',
-                'order': '41',
-                'text': 'Passenger 2 First Name',
-                'type': 'control_textbox',
-                'answer': 'Max'
-            },
-            '272': {
-                'name': 'passenger2272',
-                'order': '42',
-                'text': 'Passenger 2 Middle Name',
-                'type': 'control_textbox',
-                'answer': ''
-            },
-            '273': {
-                'name': 'passenger2273',
-                'order': '43',
-                'text': 'Passenger 2 Last Name',
-                'type': 'control_textbox',
-                'answer': 'Griffin'
-            },
-            '274': {
-                'name': 'passenger3',
-                'order': '54',
-                'text': 'Passenger 3 First Name',
-                'type': 'control_textbox',
-                'answer': ''
-            },
-            '275': {
-                'name': 'passenger3275',
-                'order': '55',
-                'text': 'Passenger 3 Middle Name',
-                'type': 'control_textbox',
-                'answer': ''
-            },
-            '276': {
-                'name': 'passenger3276',
-                'order': '56',
-                'text': 'Passenger 3 Last Name',
-                'type': 'control_textbox',
-                'answer': ''
-            }
-        }
-    }
-];

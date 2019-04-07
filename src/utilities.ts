@@ -3,6 +3,8 @@ import { Answer } from "./models/answer";
 import { AnswerControl } from "./enums/answer-control";
 import { AnswerResponse } from "./models/responses/answer-response";
 
+const passengerRegExp = /^Passenger_\d+/i;
+
 const processFormSubmissions = (submissions: FormSubmission[]): any[] => {
     let result: any[] = [];
 
@@ -44,7 +46,7 @@ const processFormSubmission = (submission: FormSubmission) => {
     */
 
     const allAnswers: Answer[] = processAnswerResponses(submission)
-    console.log('answers: ', allAnswers);
+    // console.log('answers: ', allAnswers);
     // const passengerData = groupPassengerData(allAnswers);
 };
 
@@ -78,7 +80,7 @@ const shouldProcessAnswer = (answerResponse: AnswerResponse): boolean => {
 };
 
 const processAnswerResponse = (answerResponse: AnswerResponse): Answer => {
-    const replaceRegex = new RegExp(/[\s\/]/g);
+    const replaceRegex = /[\s\/]/g;
     let result: Answer = {
         text: answerResponse.text.replace(replaceRegex, '_'),
         order: answerResponse.order,
@@ -99,9 +101,25 @@ const processAnswerResponse = (answerResponse: AnswerResponse): Answer => {
 
 const groupPassengerData = (answers: Answer[]): any[] => {
     let result: any[] = [];
+    let passengerMap: { [key:string]: any } = {};
 
     for (const answer of answers) {
-        
+        if (passengerRegExp.test(answer.text)) {
+            const matches = answer.text.match(passengerRegExp);
+
+            if (matches) {
+                const passengerKey = matches[0];
+                passengerMap[passengerKey] = passengerMap[passengerKey] || {};
+                passengerMap[passengerKey][answer.text] = answer.answer;
+            }
+        }
+    }
+
+    for (const key in passengerMap) {
+        if (passengerMap.hasOwnProperty(key)) {
+            const passengerData = passengerMap[key];
+            result.push(passengerData);
+        }
     }
 
     if (result.length < 1) {

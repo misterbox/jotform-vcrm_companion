@@ -19,7 +19,7 @@ const triggerFormSubmission = async (z: ZObject, bundle: Bundle) => {
         let jotFormResponse: JotFormResponse = response.json as JotFormResponse;
 
         submissions = Utilities.processFormSubmissions(jotFormResponse.content as FormSubmission[]);
-        console.log('submissions: ', submissions);
+        // console.log('submissions: ', submissions);
     }
 
     return submissions;
