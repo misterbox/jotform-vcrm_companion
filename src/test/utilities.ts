@@ -12,10 +12,28 @@ describe('Utilities', () => {
             const expectedId2 = 987654;
             const submissions: FormSubmission[] = [
                 {
-                    id: expectedId1
+                    id: expectedId1,
+                    answers: {
+                        1: {
+                            name: 'first name',
+                            order: 1,
+                            text: 'passenger 1 first name',
+                            answer: 'rick',
+                            type: 'control_textbox'
+                        }
+                    }
                 },
                 {
-                    id: expectedId2
+                    id: expectedId2,
+                    answers: {
+                        1: {
+                            name: 'first name',
+                            order: 1,
+                            text: 'passenger 1 first name',
+                            answer: 'summer',
+                            type: 'control_textbox'
+                        }
+                    }
                 }
             ];
 
@@ -30,7 +48,7 @@ describe('Utilities', () => {
         it('should return expected form submission answers', () => {
             const expectedName2 = 'email11';
             const expectedOrder2 = 26;
-            const expectedText2 = 'E-mail';
+            const expectedText2 = 'E_mail';
             const expectedType2 = 'control_email';
             const expectedAnswer2 = 'teset@ump.ump';
             const submission: FormSubmission =
@@ -167,7 +185,7 @@ describe('Utilities', () => {
 
     describe('processAnswerResponse', () => {
         it('should return expected email address given control_email type', () => {
-            const expectedText = 'E-mail';
+            const expectedText = 'E_mail';
             const expectedAnswer = 'test@ump.ump';
             const answerResponse: AnswerResponse = {
                 name: 'email11',
@@ -411,6 +429,47 @@ describe('Utilities', () => {
             should(passenger2[secondExpectedStreetAddressText]).eql(secondExpectedStreetAddress);
             should(passenger2[secondExpectedCityText]).eql(secondExpectedCity);
             should(passenger2[secondExpectedStateText]).eql(secondExpectedState);
+        });
+    });
+
+    describe('buildFinalSubmissionResult', () => {
+        it('should return result with expected data given answers and passenger data', () => {
+            const expectedEmail = 'test@ump.ump';
+            const expectedEmailAddressText = 'email_address';
+            const expectedFirstName = 'Rick';
+            const expectedLastName = 'Sanchez';
+            const expectedFirstNameText = 'passenger_1_first_name';
+            const expectedLastNameText = 'passenger_1_last_name';
+            const allAnswers: Answer[] = [
+                {
+                    order: 1,
+                    text: expectedEmailAddressText,
+                    answer: expectedEmail
+                },
+                {
+                    order: 2,
+                    text: expectedFirstNameText,
+                    answer: expectedFirstName
+                },
+                {
+                    order: 3,
+                    text: expectedLastNameText,
+                    answer: expectedLastName
+                }
+            ];
+            const passengerData: any[] = [
+                {
+                    [expectedFirstNameText]: expectedFirstName,
+                    [expectedLastNameText]: expectedLastName
+                }
+            ];
+
+            const result = Utilities.buildFinalSubmissionResult(allAnswers, passengerData);
+            const passenger = result.passenger_data[0];
+
+            should(result[expectedEmailAddressText]).eql(expectedEmail);
+            should(passenger[expectedFirstNameText]).eql(expectedFirstName);
+            should(passenger[expectedLastNameText]).eql(expectedLastName);
         });
     });
 });

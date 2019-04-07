@@ -9,16 +9,14 @@ const processFormSubmissions = (submissions: FormSubmission[]): any[] => {
     let result: any[] = [];
 
     for (const submission of submissions) {
-        processFormSubmission(submission);
-        result.push({
-            id: submission.id
-        });
+        const processedSubmission = processFormSubmission(submission);
+        result.push(processedSubmission);
     }
 
     return result;
 };
 
-const processFormSubmission = (submission: FormSubmission) => {
+const processFormSubmission = (submission: FormSubmission): any => {
     /*
         End result: {
             passenger_data: [
@@ -47,7 +45,11 @@ const processFormSubmission = (submission: FormSubmission) => {
 
     const allAnswers: Answer[] = processAnswerResponses(submission)
     // console.log('answers: ', allAnswers);
-    // const passengerData = groupPassengerData(allAnswers);
+    const passengerData = groupPassengerData(allAnswers);
+    const processedSubmission = buildFinalSubmissionResult(allAnswers, passengerData);
+    processedSubmission.id = submission.id;
+
+    return processedSubmission;
 };
 
 const processAnswerResponses = (submission: FormSubmission): Answer[] => {
@@ -80,7 +82,7 @@ const shouldProcessAnswer = (answerResponse: AnswerResponse): boolean => {
 };
 
 const processAnswerResponse = (answerResponse: AnswerResponse): Answer => {
-    const replaceRegex = /[\s\/]/g;
+    const replaceRegex = /[^\w\d]/g;
     let result: Answer = {
         text: answerResponse.text.replace(replaceRegex, '_'),
         order: answerResponse.order,
@@ -129,6 +131,19 @@ const groupPassengerData = (answers: Answer[]): any[] => {
     return result;
 };
 
+const buildFinalSubmissionResult = (allAnswers: Answer[], passengerData: any[]): any => {
+    let result: any = {};
+    result.passenger_data = passengerData;
+
+    for (const answer of allAnswers) {
+        if (!passengerRegExp.test(answer.text)) {
+            result[answer.text] = answer.answer;
+        }
+    }
+
+    return result;
+};
+
 const sortForms = (formA: any, formB: any): number => {
     const nameA = formA.name.toUpperCase();
     const nameB = formB.name.toUpperCase();
@@ -144,6 +159,7 @@ const sortForms = (formA: any, formB: any): number => {
 };
 
 const Utilities = {
+    buildFinalSubmissionResult: buildFinalSubmissionResult,
     groupPassengerData: groupPassengerData,
     processAnswerResponses: processAnswerResponses,
     processAnswerResponse: processAnswerResponse,
