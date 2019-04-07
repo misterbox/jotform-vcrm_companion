@@ -63,7 +63,7 @@ const processAnswerResponses = (submission: FormSubmission): Answer[] => {
     }
 
     return result.sort((a: Answer, b: Answer) => a.order - b.order)
-        .filter((answer: Answer) => answer.answer && answer.answer.trim().length);
+        .filter((answer: Answer) => answer.is_head || (answer.answer && answer.answer.trim().length));
 };
 
 const shouldProcessAnswer = (answerResponse: AnswerResponse): boolean => {
@@ -79,7 +79,7 @@ const shouldProcessAnswer = (answerResponse: AnswerResponse): boolean => {
 };
 
 const processAnswerResponse = (answerResponse: AnswerResponse): Answer => {
-    const replaceRegex = new RegExp(/[\s\/]/);
+    const replaceRegex = new RegExp(/[\s\/]/g);
     let result: Answer = {
         text: answerResponse.text.replace(replaceRegex, '_'),
         order: answerResponse.order,
@@ -105,7 +105,13 @@ const processAnswerResponse = (answerResponse: AnswerResponse): Answer => {
 const groupPassengerData = (answers: Answer[]): any[] => {
     let result: any[] = [];
 
-    throw new Error('No passenger data could be found in submission data!');
+    for (const answer of answers) {
+        
+    }
+
+    if (result.length < 1) {
+        throw new Error('No passenger data could be found in submission data!');
+    }
 
     return result;
 };

@@ -329,9 +329,14 @@ describe('Utilities', () => {
                 }
             ];
 
-            // const result = Utilities.groupPassengerData(answers);
-            // const passenger = result[0];
+            const result = Utilities.groupPassengerData(answers);
+            const passenger = result[0];
 
+            should(passenger.Passenger_1_First_Name).eql(expectedFirstName);
+            should(passenger.Passenger_1_Last_Name).eql(expectedLastName);
+            should(passenger.Passenger_1_Street_address).eql(expectedStreetAddress);
+            should(passenger.Passenger_1_City).eql(expectedCity);
+            should(passenger.Passenger_1_State).eql(expectedState);
         });
     });
 });
