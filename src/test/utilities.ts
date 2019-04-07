@@ -184,7 +184,7 @@ describe('Utilities', () => {
         });
 
         it('should return expected phone number given control_phone type', () => {
-            const expectedText = 'Phone Number';
+            const expectedText = 'Phone_Number';
             const expectedAnswer = '(123) 4567890';
             const answerResponse: AnswerResponse = {
                 name: 'phoneNumber12',
@@ -205,7 +205,7 @@ describe('Utilities', () => {
         });
 
         it('should return expected birthdate given control_birthdate type', () => {
-            const expectedText = 'Passenger 1 Birth Date';
+            const expectedText = 'Passenger_1_Birth_Date';
             const expectedAnswer = 'January 1 1967';
             const answerResponse: AnswerResponse = {
                 name: 'passenger113',
@@ -227,7 +227,7 @@ describe('Utilities', () => {
         });
 
         it('should return expected departure date given control_datetime type', () => {
-            const expectedText = 'Departure Date/Time';
+            const expectedText = 'Departure_Date_Time';
             const expectedAnswer = '04-01-2019 1:00 AM';
             const answerResponse: AnswerResponse = {
                 name: 'departureDatetime',
@@ -262,6 +262,76 @@ describe('Utilities', () => {
             const result: Answer = Utilities.processAnswerResponse(answerResponse);
 
             should(result.is_head).true();
+        });
+    });
+
+    describe('groupPassengerData', () => {
+        it('should throw error if no passenger data can be found', () => {
+            const answers: Answer[] = [
+                {
+                    order: 1,
+                    text: 'email address',
+                    answer: 'test@ump.ump',
+                    is_head: false,
+                }
+            ];
+
+            try {
+                Utilities.groupPassengerData(answers);
+                should.fail(null, null, 'We should never get here');
+            }
+            catch(error) {
+                should(error.message).containEql('No passenger data could be found in submission data!');
+            }
+        });
+
+        it('should return a single passenger with expected data', () => {
+            const expectedFirstName = 'Rick';
+            const expectedLastName = 'Sanchez';
+            const expectedStreetAddress = '123 Street';
+            const expectedCity = 'Seattle';
+            const expectedState = 'Washington';
+            const answers: Answer[] = [
+                {
+                    order: 1,
+                    text: 'Passenger #1',
+                    is_head: true,
+                },
+                {
+                    order: 2,
+                    text: 'Passenger 1 First name',
+                    answer: expectedFirstName,
+                    is_head: false,
+                },
+                {
+                    order: 3,
+                    text: 'Passenger 1 Last name',
+                    answer: expectedLastName,
+                    is_head: false,
+                },
+                {
+                    order: 4,
+                    text: 'Passenger 1 Street address',
+                    answer: expectedStreetAddress,
+                    is_head: false,
+                },
+                {
+                    order: 5,
+                    text: 'Passenger 1 City',
+                    answer: expectedCity,
+                    is_head: false,
+                },
+                {
+                    order: 6,
+                    text: 'Passenger 1 State',
+                    answer: expectedState,
+                    is_head: false,
+                }
+            ];
+
+            // const result = Utilities.groupPassengerData(answers);
+            // const passenger = result[0];
+
         });
     });
 });
