@@ -38,6 +38,7 @@ const processFormSubmission = (submission: FormSubmission) => {
         * sort Answers based on Order
         * filter Answers with empty answer
         * find and group passenger data
+        *   throw error if no passenger data can be found
         * add passenger array to result
         * add all non-passenger Answers as properties of result
     */

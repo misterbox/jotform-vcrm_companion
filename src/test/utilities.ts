@@ -87,6 +87,82 @@ describe('Utilities', () => {
 
             should(result.length).eql(1);
         });
+
+
+        it('should filter out blank answer responses', () => {
+            const expectedText = 'Phone Number';
+            const expectedAnswer = '(123) 4567890';
+            const goodAnswerResponse: AnswerResponse = {
+                name: 'phoneNumber12',
+                order: 27,
+                text: expectedText,
+                type: 'control_phone',
+                answer: {
+                    area: '123',
+                    phone: '4567890'
+                },
+                prettyFormat: expectedAnswer
+            };
+            const badAnswerResponse: AnswerResponse = {
+                name: 'email',
+                order: 30,
+                text: 'some question',
+                type: 'control_phone',
+                answer: {
+                    area: '',
+                    phone: ''
+                },
+                prettyFormat: '   '
+            };
+            const submission: FormSubmission = {
+                "id": 4298733848221547651,
+                "form_id": 90896763718172,
+                "answers": {
+                    1: goodAnswerResponse,
+                    7: badAnswerResponse
+                }
+            };
+
+            const result: Answer[] = Utilities.processAnswerResponses(submission);
+
+            should(result.length).eql(1);
+        });
+
+        it('should sort processed answer responses', () => {
+            const firstExpectedOrder = 1;
+            const secondExpectedOrder = 2;
+            const first: AnswerResponse = {
+                name: 'phoneNumber12',
+                order: firstExpectedOrder,
+                text: 'phone number',
+                type: 'control_phone',
+                answer: {
+                    area: '123',
+                    phone: '4567890'
+                },
+                prettyFormat: '123 4567890'
+            };
+            const second: AnswerResponse = {
+                name: 'email',
+                order: secondExpectedOrder,
+                text: 'some question',
+                type: 'control_email',
+                answer: 'test@ump.ump'
+            };
+            const submission: FormSubmission = {
+                "id": 4298733848221547651,
+                "form_id": 90896763718172,
+                "answers": {
+                    1: first,
+                    7: second
+                }
+            };
+
+            const result: Answer[] = Utilities.processAnswerResponses(submission);
+
+            should(result[0].order).eql(firstExpectedOrder);
+            should(result[1].order).eql(secondExpectedOrder);
+        });
     });
 
     describe('processAnswerResponse', () => {
