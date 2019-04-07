@@ -45,7 +45,7 @@ const processFormSubmission = (submission: FormSubmission) => {
 
     const allAnswers: Answer[] = processAnswerResponses(submission)
     console.log('answers: ', allAnswers);
-    const passengerAnswers = groupPassengerAnswers(allAnswers);
+    const passengerData = groupPassengerData(allAnswers);
 };
 
 const processAnswerResponses = (submission: FormSubmission): Answer[] => {
@@ -102,7 +102,7 @@ const processAnswerResponse = (answerResponse: AnswerResponse): Answer => {
     return result;
 };
 
-const groupPassengerAnswers = (answers: Answer[]) => {
+const groupPassengerData = (answers: Answer[]) => {
     
 };
 
@@ -121,6 +121,7 @@ const sortForms = (formA: any, formB: any): number => {
 };
 
 const Utilities = {
+    groupPassengerData: groupPassengerData,
     processAnswerResponses: processAnswerResponses,
     processAnswerResponse: processAnswerResponse,
     processFormSubmissions: processFormSubmissions,
