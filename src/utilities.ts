@@ -44,10 +44,10 @@ const processFormSubmission = (submission: FormSubmission): any => {
     */
 
     const allAnswers: Answer[] = processAnswerResponses(submission)
-    // console.log('answers: ', allAnswers);
     const passengerData = groupPassengerData(allAnswers);
     const processedSubmission = buildFinalSubmissionResult(allAnswers, passengerData);
     processedSubmission.id = submission.id;
+    processedSubmission.passenger_data_string = JSON.stringify(processedSubmission.passenger_data);
 
     return processedSubmission;
 };
@@ -60,7 +60,6 @@ const processAnswerResponses = (submission: FormSubmission): Answer[] => {
             const answerResponse: AnswerResponse = submission.answers[answer];
 
             if (shouldProcessAnswer(answerResponse)) {
-                // console.log('element: ', element);
                 result.push(processAnswerResponse(answerResponse));
             }
         }
