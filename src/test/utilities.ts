@@ -271,24 +271,6 @@ describe('Utilities', () => {
     });
 
     describe('groupPassengerData', () => {
-        it('should throw error if no passenger data can be found', () => {
-            const answers: Answer[] = [
-                {
-                    order: 1,
-                    text: 'email_address',
-                    answer: 'test@ump.ump'
-                }
-            ];
-
-            try {
-                Utilities.groupPassengerData(answers);
-                should.fail(null, null, 'We should never get here');
-            }
-            catch(error) {
-                should(error.message).containEql('No passenger data could be found in submission data!');
-            }
-        });
-
         it('should return a single passenger with expected data', () => {
             const expectedFirstName = 'Rick';
             const expectedFirstNameText = 'Passenger_1_First_name';
@@ -465,11 +447,8 @@ describe('Utilities', () => {
             ];
 
             const result = Utilities.buildFinalSubmissionResult(allAnswers, passengerData);
-            const passenger = result.passenger_data[0];
 
             should(result[expectedEmailAddressText]).eql(expectedEmail);
-            should(passenger[expectedFirstNameText]).eql(expectedFirstName);
-            should(passenger[expectedLastNameText]).eql(expectedLastName);
         });
     });
 });

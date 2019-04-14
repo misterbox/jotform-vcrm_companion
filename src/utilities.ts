@@ -123,16 +123,11 @@ const groupPassengerData = (answers: Answer[]): any[] => {
         }
     }
 
-    if (result.length < 1) {
-        throw new Error('No passenger data could be found in submission data!');
-    }
-
     return result;
 };
 
 const buildFinalSubmissionResult = (allAnswers: Answer[], passengerData: any[]): any => {
     let result: any = {};
-    result.passenger_data = passengerData;
     const sortedAnswers = allAnswers.sort(sortAnswers);
 
     for (const answer of sortedAnswers) {
