@@ -2,6 +2,7 @@ export enum AnswerControl {
     UNKNOWN = '',
     BIRTHDATE = 'control_birthdate',
     BUTTON = 'control_button',
+    CHECKBOX = 'control_checkbox',
     DATETIME = 'control_datetime',
     DROPDOWN = 'control_dropdown',
     EMAIL = 'control_email',

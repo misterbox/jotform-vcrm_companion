@@ -48,6 +48,7 @@ const processFormSubmission = (submission: FormSubmission): any => {
     const processedSubmission = buildFinalSubmissionResult(allAnswers, passengerData);
     processedSubmission.id = submission.id;
     processedSubmission.passenger_data_string = JSON.stringify(processedSubmission.passenger_data);
+    delete processedSubmission.passenger_data;
 
     return processedSubmission;
 };
@@ -71,6 +72,7 @@ const processAnswerResponses = (submission: FormSubmission): Answer[] => {
 
 const shouldProcessAnswer = (answerResponse: AnswerResponse): boolean => {
     return answerResponse.type === AnswerControl.BIRTHDATE ||
+        answerResponse.type === AnswerControl.CHECKBOX ||
         answerResponse.type === AnswerControl.DATETIME ||
         answerResponse.type === AnswerControl.DROPDOWN || 
         answerResponse.type === AnswerControl.EMAIL ||
@@ -88,8 +90,9 @@ const processAnswerResponse = (answerResponse: AnswerResponse): Answer => {
     };
 
     switch (answerResponse.type as AnswerControl) {
-        case AnswerControl.DATETIME:
         case AnswerControl.BIRTHDATE:
+        case AnswerControl.CHECKBOX:
+        case AnswerControl.DATETIME:
         case AnswerControl.PHONE:
             result.answer = answerResponse.prettyFormat;
             break;
@@ -128,6 +131,7 @@ const groupPassengerData = (answers: Answer[]): any[] => {
 
 const buildFinalSubmissionResult = (allAnswers: Answer[], passengerData: any[]): any => {
     let result: any = {};
+    result.passenger_data = passengerData;
     const sortedAnswers = allAnswers.sort(sortAnswers);
 
     for (const answer of sortedAnswers) {
