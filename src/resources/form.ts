@@ -6,7 +6,7 @@ import { Form } from "../models/form";
 import Utilities from "../utilities";
 
 const queryForms = async (z: ZObject, bundle: Bundle) => {
-    const response: HttpResponse = await z.request(`${Constants.API_BASE}/user/forms`, {
+    const response: HttpResponse = await z.request(`${Constants.API_BASE}/user/forms?limit=1000&orderby=title`, {
         method: 'GET',
         removeMissingValuesFrom: {
             params: true,
